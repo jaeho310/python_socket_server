@@ -83,3 +83,18 @@ python argument 에 따라 repository의 구현체를 rdb, memorydb로 구분하
 
 ## logging
 singleton 패턴을 활용하여 간단한 콘솔 로그를 만들었습니다.
+
+<br>
+<br>
+
+## user interface
+사용자 interface는 cli로 구축하였습니다.
+현재 접속인원 확인, 로그확인(level별) 등의 기능을 포함하며
+
+stateful 실습을 위하여 모든 사용자에게 공지사항을 보내는 기능을 추가하였습니다.
+
+일반적인 http는 server는 클라이언트의 request가 있어야 서버가 response를 내려주지만,
+
+커넥션을 유지하고있는 tcp socket server는 클라이언트의 요청이 없더라도 서버가 클리어언트에게 데이터를 줄 수 있습니다.
+
+(네이버에서 웹툰을 보고있을때 사용자가 새로고침을 하지 않는다면 공지사항이 있어도 확인하지 못하지만, socket을 사용하는 경우(ex.게임) 실시간 공지사항을 확인할 수 있습니다.)
