@@ -1,3 +1,4 @@
+#-*-coding:utf-8-*-
 import threading
 import os
 import time
@@ -5,6 +6,8 @@ from presentation.interface.controller.client_controller import ClientController
 from application.custom_logger import CustomLogger
 import subprocess
 import re
+
+#-*-coding:utf-8-*-
 
 logger = CustomLogger()
 
@@ -50,7 +53,29 @@ def ui_loop():
       wrong_input()
     input()
 
+def save_log():
+  f = open("./application.txt", 'a', encoding='utf-8')
+  for msg in logger.log_data:
+    f.write(msg + '\n')
+  f.close()
+
+  f = open("./application_info.txt", 'a', encoding='utf-8')
+  for msg in logger.log_data_info:
+    f.write(msg + '\n')
+  f.close()
+
+  f = open("./application_warn.txt", 'a', encoding='utf-8')
+  for msg in logger.log_data_warn:
+    f.write(msg + '\n')
+  f.close()
+
+  f = open("./application_debug.txt", 'a', encoding='utf-8')
+  for msg in logger.log_data_debug:
+    f.write(msg + '\n')
+  f.close()
+
 def force_quit():
+  save_log()
   a = subprocess.check_output('netstat -ano | findstr 8395', shell=True)
   print(a.decode())
   list = re.compile("\s\d{2,10}").findall(a.decode())
