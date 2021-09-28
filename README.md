@@ -1,6 +1,6 @@
 # socket_server
 
-layered architecture와 IOC DI(고수준의 모듈이 저수준의 모듈에 의존하지 않도록)를 적용한 tcp socket 서버입니다.
+IOC DI(고수준의 모듈이 저수준의 모듈에 의존하지 않도록)를 적용한 tcp socket 서버입니다.
 
 tcp 패킷이 밀려 여러건의 데이터가 붙어오는 경우의 처리방법과 악성 클라이언트 처리방법까지만 개발하였으며
 
@@ -34,10 +34,52 @@ ex2) 'get<1>get<2>' 라는 방식으로 데이터가오면 >를 구분자로 두
 ```
 
 
-## layered architecture
-계층은 presentation(interface) 계층, application 계층, infrastructure 계층으로 나눴으며
-컴포넌트는 controller계층, usecase계층, repoisotry계층 으로 나눴습니다
+## 아키텍쳐
+앨리스터 코오번의 Hexagonal Architecture 를 적용하므로써 관심사를 분리한 애플리케이션입니다.
+
+소프트웨어를 계층으로 분리하고 의존성 규칙을 준수한다면 본질적으로 테스트하기 쉬운 시스템이 되고(테스트 관심사가 아닌 컴포넌트는 Mock Stub등으로 치환)
+
+프레임워크나 데이터베이스가 구식이 되어, 변경이 필요한 시점에 각 요소를 비교적 쉽게 교체할 수 있다는 장점이 있습니다.
+
+<br>
+<br>
+
+- layer는 presentation(interface) 계층, application(Business Layer, persistence Laye) 계층, infrastructure(db) 계층으로 나눴습니다.
+
+<img src="https://media.vlpt.us/images/sj950902/post/94b0f3bb-dbd9-43e2-ab31-d6d429553c0f/image.png" width=50%>
+
+<br>
+<br>
+<br>
+
+- 컴포넌트는 controller계층, usecase계층, repoisotry계층 으로 나눴습니다
+
+<img src="https://miro.medium.com/max/1400/0*nPHeRaVlP2V9Gq_5" width=50%>
+
+
+계층구조의 장점과 추상에 의존한 느슨한 결합의 장점을 확인하기 위해
+
 python argument 에 따라 repository의 구현체를 rdb, memorydb로 구분하여 사용하도록 하였습니다.
+```
+.
+|-- main.py
+|-- application
+|   |-- custom_logger.py
+|   |-- interactor.py
+|   |-- repository.py
+|   `-- usecase.py
+|-- infrastructure
+|   |-- db_sqlite3.py
+|   |-- socket_server.py
+|   `-- user_inerface.py
+`-- presentation
+    `-- interface
+        |-- controller
+        |   `-- client_controller.py
+        `-- gateway
+            |-- memory_repository.py
+            `-- rdb_repository.py
+```
 
 ## logging
 singleton 패턴을 활용하여 간단한 콘솔 로그를 만들었습니다.
