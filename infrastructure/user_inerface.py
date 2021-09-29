@@ -1,4 +1,3 @@
-#-*-coding:utf-8-*-
 import threading
 import os
 import time
@@ -7,50 +6,38 @@ from application.custom_logger import CustomLogger
 import subprocess
 import re
 
-#-*-coding:utf-8-*-
-
 logger = CustomLogger()
+command = {}
+
 
 def start_cli_user_interface():
+  command_pattern()
   ui_thread = threading.Thread(target = ui_loop, args=())
   ui_thread.start()
+
+def command_pattern():
+  command[1] = {'desc': '1. 현재 접속인원 확인', 'func': get_current_user}
+  command[2] = {'desc': '2. 공지사항 보내기', 'func': send_all_clients}
+  command[3] = {'desc': '3. 로그 확인(전체)', 'func': get_log}
+  command[4] = {'desc': '4. 로그 확인(info)', 'func': get_info_log}
+  command[5] = {'desc': '5. 로그 확인(warning)', 'func': get_warn_log}
+  command[6] = {'desc': '6. 디버깅 로그 확인', 'func': get_debug_log}
+  command[7] = {'desc': '7. 콘솔창 지우기', 'func': clear_console}
+  command[8] = {'desc': '8. 서버종료(memory db의 데이터는 저장되지 않습니다)', 'func': force_quit}
 
 def ui_loop():
   time.sleep(0.5)
   while True:
-    print('################관리자################')
-    print('1. 현재 접속인원 확인')
-    print('2. 공지사항 보내기')
-    print('3. 로그 확인(전체)')
-    print('4. 로그 확인(info)')
-    print('5. 로그 확인(warning)')
-    print('6. 디버깅 로그 확인')
-    print('7. 콘솔창 지우기')
-    print('8. 서버종료(memory db의 데이터는 저장되지 않습니다)')
+    for _, key in enumerate(command):
+      print(command[key]['desc'])
     try:
       user_input = int(input())
       print('#####################################')
-      if user_input == 1:
-        get_current_user()
-      elif user_input == 2:
-        send_all_clients()
-      elif user_input == 3:
-        get_log()
-      elif user_input == 4:
-        get_info_log()
-      elif user_input == 5:
-        get_warn_log()
-      elif user_input == 6:
-        get_debug_log()
-      elif user_input == 7:
-        clear_console()
-      elif user_input == 8:
-        force_quit()
-      else:
+      if user_input not in command:
         wrong_input()
+      command[user_input]['func']()
     except Exception as e:
       print(e)
-      wrong_input()
     input()
 
 def save_log():

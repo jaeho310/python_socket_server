@@ -4,7 +4,6 @@ import sys
 import setproctitle
 
 if __name__ == "__main__":
-  setproctitle.setproctitle('my_socket_server.exe')
   start_cli_user_interface()
 
   repository_type = 'memory'
