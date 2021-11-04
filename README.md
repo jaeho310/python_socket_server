@@ -102,7 +102,9 @@ python argument 에 따라 repository의 구현체를 rdb, memorydb로 구분하
 ## logging
 singleton 패턴을 활용하여 간단한 콘솔 로그를 만들었습니다.
 
-프로그램이 종료될 때 저장되는 방식입니다.
+서버에서 정상적으로 프로그램을 종료하면
+
+fileio를 통해 txt파일로 저장하도록 하였습니다.
 
 <br>
 <br>
