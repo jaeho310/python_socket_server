@@ -18,6 +18,7 @@ async begin select 등의 접두사가 붙어있는(callbcak을 등록시켜 eve
 
 ## 기능
 - 사용자는 UID를 통해 서버에 데이터를 넣고 확인할 수 있습니다.
+- statefull한 socket서버의 특징 확인을 위해 서버가 클라이언트에게 실시간 공지사항을 내려주는 기능도 넣었습니다.
 
 ## 사용 기술
 - socket
